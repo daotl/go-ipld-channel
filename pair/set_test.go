@@ -11,7 +11,7 @@ import (
 	mh "github.com/multiformats/go-multihash"
 )
 
-func makeRandomChannelCidPair(t *testing.T) ChannelCidPair {
+func makeRandomCidChannelPair(t *testing.T) CidChannelPair {
 	p := make([]byte, 256)
 	_, err := rand.Read(p)
 	if err != nil {
@@ -29,14 +29,14 @@ func makeRandomChannelCidPair(t *testing.T) ChannelCidPair {
 }
 
 func TestSet(t *testing.T) {
-	pair := makeRandomChannelCidPair(t)
-	pair2 := makeRandomChannelCidPair(t)
+	pair := makeRandomCidChannelPair(t)
+	pair2 := makeRandomCidChannelPair(t)
 	s := NewSet()
 
 	s.Add(pair)
 
 	if !s.Has(pair) {
-		t.Error("should have the ChannelCidPair")
+		t.Error("should have the CidChannelPair")
 	}
 
 	if s.Len() != 1 {
@@ -46,15 +46,15 @@ func TestSet(t *testing.T) {
 	keys := s.Keys()
 
 	if len(keys) != 1 || !keys[0].Equals(pair) {
-		t.Error("key should correspond to ChannelCidPair")
+		t.Error("key should correspond to CidChannelPair")
 	}
 
 	if s.Visit(pair) {
 		t.Error("visit should return false")
 	}
 
-	var foreach []ChannelCidPair
-	foreachF := func(p ChannelCidPair) error {
+	var foreach []CidChannelPair
+	foreachF := func(p CidChannelPair) error {
 		foreach = append(foreach, p)
 		return nil
 	}
@@ -67,7 +67,7 @@ func TestSet(t *testing.T) {
 		t.Error("ForEach should have visited 1 element")
 	}
 
-	foreachErr := func(p ChannelCidPair) error {
+	foreachErr := func(p CidChannelPair) error {
 		return errors.New("test")
 	}
 
@@ -76,7 +76,7 @@ func TestSet(t *testing.T) {
 	}
 
 	if !s.Visit(pair2) {
-		t.Error("should have visited a new ChannelCidPair")
+		t.Error("should have visited a new CidChannelPair")
 	}
 
 	if s.Len() != 2 {
