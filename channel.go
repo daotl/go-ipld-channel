@@ -9,6 +9,6 @@ const (
 	PublicChannel Channel = ""
 )
 
-func (c Channel) toString() string {
+func (c Channel) String() string {
 	return string(c)
 }
