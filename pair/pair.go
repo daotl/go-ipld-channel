@@ -3,7 +3,7 @@ package pair
 import (
 	"github.com/ipfs/go-cid"
 
-	"github.com/daotl/go-ipld-channel"
+	channel "github.com/daotl/go-ipld-channel"
 )
 
 // ChannelCidPair is a pair of channel and cid.
@@ -29,4 +29,20 @@ func (k ChannelCidPair) Defined() bool {
 // Equals checks that two ChannelCidPairs are the same.
 func (k ChannelCidPair) Equals(o ChannelCidPair) bool {
 	return k == o
+}
+
+func CidsToPairs(cids []cid.Cid, chn channel.Channel) []ChannelCidPair {
+	keys := make([]ChannelCidPair, 0, len(cids))
+	for _, c := range cids {
+		keys = append(keys, ChannelCidPair{chn, c})
+	}
+	return keys
+}
+
+func PairsToCids(keys []ChannelCidPair) []cid.Cid {
+	cids := make([]cid.Cid, 0, len(keys))
+	for _, key := range keys {
+		cids = append(cids, key.Cid)
+	}
+	return cids
 }
