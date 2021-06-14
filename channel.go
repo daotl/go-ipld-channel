@@ -14,7 +14,7 @@ func (c Channel) String() string {
 }
 
 // StringsToChannels converts a slice of strings to a slice of Channels.
-func StringToChannels(strs []string) []Channel {
+func StringsToChannels(strs []string) []Channel {
 	chns := make([]Channel, 0, len(strs))
 	for i, s := range strs {
 		chns[i] = Channel(s)
